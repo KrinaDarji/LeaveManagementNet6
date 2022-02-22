@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LeaveManagement.Web.Configuration;
+using LeaveManagement.Web.Repositories;
+using LeaveManagement.Web.Contracts;
 
 namespace LeaveManagement.Web
 {
@@ -36,6 +38,8 @@ namespace LeaveManagement.Web
 
             services.AddDefaultIdentity<Employee>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<ILeaveTypeRepository,LeaveRepository>();
             services.AddAutoMapper(typeof(MapperConfig));
             services.AddControllersWithViews();
            
