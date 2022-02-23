@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using LeaveManagement.Web.Models;
 
 namespace LeaveManagement.Web.Data
 {
@@ -23,5 +24,7 @@ namespace LeaveManagement.Web.Data
         }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
+      
+       
     }
 }

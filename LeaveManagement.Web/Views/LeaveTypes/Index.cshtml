@@ -34,9 +34,10 @@
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-edit" ></i></a> |
+                    <button data-id="@item.Id" class="btn btn-primary allocatebtn" type="button">Allocate Leave</button>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning"><i class="fas fa-edit"></i></a> |
                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info"><i class="fas fa-info-circle"></i></a> |
-                   <button data-id="@item.Id" class="btn btn-danger deletebtn" type="button"><i class="fas fa-trash-alt"></i></button>
+                    <button data-id="@item.Id" class="btn btn-danger deletebtn" type="button"><i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
         }
@@ -44,6 +45,9 @@
 </table>
 <form asp-action="Delete" id="deleteFrom">
     <input type="hidden" id="leaveTypeId" name="Id" />
+</form>
+<form asp-action="AllocateLeave" id="allocatefrom">
+    <input type="hidden" id="leaveTypeIdallocate" name="Id" />
 </form>
 @section Scripts{
     <script>
@@ -62,6 +66,22 @@
                         var id = btn.data("id");
                         $('#leaveTypeId').val(id);
                         $('#deleteFrom').submit();
+                    }
+                });
+            });
+            $('.allocatebtn').click(function (e) {
+                swal({
+                    title: "Are You Sure ? ",
+                    text: "Are you sure you want to Allocate this Leaves to all Employees?",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true
+                }).then((confirm) => {
+                    if (confirm) {
+                        var btn = $(this);
+                        var id = btn.data("id");
+                        $('#leaveTypeIdallocate').val(id);
+                        $('#allocatefrom').submit();
                     }
                 });
             });
