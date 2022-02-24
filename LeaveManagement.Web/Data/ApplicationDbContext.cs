@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using LeaveManagement.Web.Models;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Linq;
 
 namespace LeaveManagement.Web.Data
 {
@@ -21,6 +24,19 @@ namespace LeaveManagement.Web.Data
             builder.ApplyConfiguration(new UserSeedConfiguration());
             builder.ApplyConfiguration(new UserRoleSeedConfiguration());
 
+        }
+        public override Task<int> SaveChangesAsync( CancellationToken cancellationToken = default)
+        {
+            foreach(var entry in base.ChangeTracker.Entries<BaseEntity>().Where(q=>q.State == EntityState.Added
+            || q.State == EntityState.Modified))
+            {
+                entry.Entity.DateModified = DateTime.Now;
+                if(entry.State == EntityState.Added)
+                {
+                    entry.Entity.DateCreated = DateTime.Now;
+                }
+            }
+            return base.SaveChangesAsync(cancellationToken);
         }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<LeaveAllocation> LeaveAllocations { get; set; }
