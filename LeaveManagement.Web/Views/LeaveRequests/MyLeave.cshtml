@@ -1,0 +1,105 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+@model EmployeeLeaveRequestViewVM
+@{
+    ViewData["Title"] = " My Leave";
+}
+
+<h1>My Leave Allocations</h1>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+        <h4>Leave Allocations</h4>
+    </div>
+
+    <ul class="list-group list-group-flush">
+        @foreach (var allocation in Model.leaveAllocations)
+        {
+            <li class="list-group-item">
+                <h6>@allocation.leaveType.Name <span class="bagde rounded-pill bg-primary">@allocation.NumberOfDays</span></h6>
+                <h6>@allocation.leaveType.Name <span class="bagde rounded-pill bg-primary">@allocation.leaveType.DefaultDays</span></h6>
+                <a class="btn btn-warning" asp-action="EditAllocation" asp-route-id="@allocation.Id"><i class="fas fa-pencil-alt"></i>Edit Allocation</a>
+            </li>
+        }
+    </ul>
+</div>
+<hr />
+<h5>Current Requests</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].LeaveType)
+            </th>
+          
+           
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveRequests[0].Approved)
+            </th>
+           
+            
+           
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LeaveRequests)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                </td>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestComments)
+                </td>
+                <td>
+                    @if (item.Cancelled)
+                {
+                    <span class="bagde bg-secondary">Cancelled</span>
+                }
+                    else if(item.Approved==null){
+                        <span class="badge bg-warning">Pending</span>
+
+                }
+                    else if (item.Approved.Value)
+                {
+                    <span class="badge bg-success">Approve</span>
+                }
+                    else if(item.Approved.Value == false)
+                {
+                    <span class="bagde bg-danger">Rejected</span>
+                }
+                    @Html.DisplayFor(modelItem => item.Approved)
+                </td>
+                <td>
+                    @if (item.Approved == null)
+                    {
+                    <form>
+                        <input asp-form="@item.Id" type ="hidden"/>
+                        <button type="submit" class="btn btn-danger btn-sm">Cancel Request</button>
+                    </form>
+                   
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

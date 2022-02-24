@@ -13,6 +13,6 @@ namespace LeaveManagement.Web.Models
         [Required]
         [Display(Name = "Alloaction Period")]
         public int Period { get; set; }
-        public LeaveTypeVM? leaveType { get; set;}
+        public LeaveTypeVM leaveType { get; set;}
     }
 }

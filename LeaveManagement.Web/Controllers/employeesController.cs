@@ -72,10 +72,7 @@ namespace LeaveManagement.Web.Controllers
                         return RedirectToAction(nameof(Details), new { id = model.EmployeeId });
                     }
 
-            
                 }
-
-               
             }
             catch(Exception ex)
             {
